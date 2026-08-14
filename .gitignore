@@ -1,0 +1,32 @@
+# Deny all root-level files and directories by default.
+/*
+
+# Keep this repository configuration and backend build entry points.
+!/.gitignore
+!/pom.xml
+!/README.md
+!/LICENSE
+
+# Keep Maven Wrapper files.
+!/.mvn/
+!/.mvn/**
+
+# Keep all backend Maven modules.
+!/genbox-agent-*/
+!/genbox-agent-*/**
+
+# Keep database scripts required by the backend.
+!/sql/
+!/sql/**
+
+# Ignore generated output and local development metadata everywhere.
+**/target/
+**/build/
+**/.idea/
+**/.vscode/
+**/*.iml
+**/*.iws
+**/*.ipr
+**/.DS_Store
+**/__pycache__/
+**/*.py[cod]

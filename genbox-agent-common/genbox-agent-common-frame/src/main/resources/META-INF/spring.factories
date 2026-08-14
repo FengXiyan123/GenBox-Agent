@@ -1,0 +1,4 @@
+org.springframework.boot.env.EnvironmentPostProcessor=\
+  com.genbox.environment.SpringEnvironment
+org.springframework.context.ApplicationContextInitializer=\
+  com.genbox.core.SpringUtil

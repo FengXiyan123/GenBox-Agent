@@ -1,0 +1,2 @@
+com.genbox.config.GenBoxAgentCommonAutoConfig
+com.genbox.database.mybatisplus.MybatisPlusAutoConfiguration

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.genbox</groupId>
+    <artifactId>GenBox-Agent</artifactId>
+    <version>${revision}</version>
+    <packaging>pom</packaging>
+
+    <name>${project.artifactId}</name>
+    
+    <description>genbox-agent</description>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    
+    <modules>
+        <module>genbox-agent-chat</module>
+        <module>genbox-agent-common</module>
+        <module>genbox-agent-id-generator-framework</module>
+        <module>genbox-agent-redisson-framework</module>
+        <module>genbox-agent-redis-tool-framework</module>
+    </modules>
+    
+    <properties>
+        <revision>0.0.1-SNAPSHOT</revision>
+        <project.sourceEncoding>UTF-8</project.sourceEncoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>17</java.version>
+        <spring.boot.version>3.5.6</spring.boot.version>
+        <spring-ai.version>1.1.0</spring-ai.version>
+        <spring-ai.alibaba.version>1.1.2.0</spring-ai.alibaba.version>
+        <commons-lang.version>2.6</commons-lang.version>
+        <jjwt.version>0.9.1</jjwt.version>
+        <jaxb.api.version>2.3.1</jaxb.api.version>
+        <jaxb.runtime.version>2.3.9</jaxb.runtime.version>
+        <hutool.version>5.8.25</hutool.version>
+        <lombok.version>1.18.20</lombok.version>
+        <mybatis-plus.version>3.5.7</mybatis-plus.version>
+        <fastjson.version>1.2.83</fastjson.version>
+        <hutool.version>5.8.25</hutool.version>
+        <maven-compiler.version>3.8.1</maven-compiler.version>
+        <maven-resources.version>3.2.0</maven-resources.version>
+        <maven-source.version>3.2.1</maven-source.version>
+        <flatten-maven.version>1.4.1</flatten-maven.version>
+        <pagehelper.version>5.2.0</pagehelper.version>
+        <knife4j.version>4.3.0</knife4j.version>
+        <openapi.swagger.version>2.2.0</openapi.swagger.version>
+        <commons-collections.version>3.2.2</commons-collections.version>
+        <redisson.version>3.32.0</redisson.version>
+    </properties>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring.boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.ai</groupId>
+                <artifactId>spring-ai-bom</artifactId>
+                <version>${spring-ai.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud.ai</groupId>
+                <artifactId>spring-ai-alibaba-bom</artifactId>
+                <version>${spring-ai.alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler.version}</version>
+                <configuration>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${maven-resources.version}</version>
+                <configuration>
+                    <encoding>${project.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${maven-source.version}</version>
+                <configuration>
+                    <!--install、deploy时会上传源码jar包到仓库，默认是true-->
+                    <attach>true</attach>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-source</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>${flatten-maven.version}</version>
+                <configuration>
+                </configuration>
+                <executions>
+                    <!-- enable flattening -->
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <!-- ensure proper cleanup -->
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>
