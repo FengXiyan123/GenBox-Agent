@@ -6,6 +6,8 @@
 !/pom.xml
 !/README.md
 !/LICENSE
+!/vue/
+!/vue/**
 
 # Keep Maven Wrapper files.
 !/.mvn/
@@ -22,6 +24,8 @@
 # Ignore generated output and local development metadata everywhere.
 **/target/
 **/build/
+**/node_modules/
+**/dist/
 **/.idea/
 **/.vscode/
 **/*.iml
@@ -30,3 +34,4 @@
 **/.DS_Store
 **/__pycache__/
 **/*.py[cod]
+/vue/public/WebViewer/
