@@ -14,6 +14,7 @@ import {
   DrawerHeader,
   DrawerTitle
 } from '@/components/ui/drawer'
+import IcpFooter from '@/components/IcpFooter.vue'
 import ConversationHistoryList from './ConversationHistoryList.vue'
 
 defineProps({
@@ -83,6 +84,11 @@ const emit = defineEmits([
       @select="emit('select', $event)"
       @delete="emit('delete', $event)"
       @retry="emit('retry')"
+    />
+    <IcpFooter
+      v-if="!collapsed"
+      data-testid="chat-sidebar-icp"
+      class="flex-none border-t border-border px-3 py-3 text-center"
     />
   </aside>
 

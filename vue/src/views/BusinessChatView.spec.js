@@ -60,11 +60,11 @@ describe('BusinessChatView stream ownership', () => {
     expect(window.localStorage.getItem('genbox-agent-theme')).toBe('dark')
   })
 
-  it('renders the ICP footer at the lower-left edge of the chat page', async () => {
+  it('does not render an absolutely positioned ICP footer in the chat page', async () => {
     wrapper = mount(BusinessChatView, { attachTo: document.body })
     await flushPromises()
 
-    expect(wrapper.get('.chat-icp-footer').text()).toContain('晋ICP备2026011999号-1')
+    expect(wrapper.find('.chat-icp-footer').exists()).toBe(false)
   })
 
   it('scrolls to the latest answer after the hydrated conversation is rendered', async () => {

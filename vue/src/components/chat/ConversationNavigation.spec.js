@@ -27,5 +27,6 @@ describe('ConversationNavigation branding', () => {
 
     const logo = wrapper.get('aside header img[src="/GenBox_ico.png"]')
     expect(logo.attributes('alt')).toBe('GenBox-Agent')
+    expect(wrapper.get('aside [data-testid="chat-sidebar-icp"]').text()).toContain('晋ICP备2026011999号-1')
   })
 })

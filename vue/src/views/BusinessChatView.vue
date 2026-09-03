@@ -11,7 +11,6 @@ import {
   XMarkIcon
 } from '@heroicons/vue/24/outline'
 import Chat from '../components/Chat.vue'
-import IcpFooter from '../components/IcpFooter.vue'
 import ConversationNavigation from '@/components/chat/ConversationNavigation.vue'
 import ThemeToggle from '@/components/system/ThemeToggle.vue'
 import { Button } from '@/components/ui/button'
@@ -712,27 +711,5 @@ onBeforeUnmount(() => {
         </div>
       </footer>
     </main>
-    <IcpFooter class="chat-icp-footer" />
   </section>
 </template>
-
-<style scoped>
-.chat-icp-footer {
-  position: absolute;
-  bottom: max(0.75rem, env(safe-area-inset-bottom));
-  left: 1rem;
-  z-index: 1;
-  width: auto;
-  pointer-events: none;
-}
-
-.chat-icp-footer :deep(.icp-link) {
-  pointer-events: auto;
-}
-
-@media (max-width: 64rem) {
-  .chat-icp-footer {
-    left: 0.75rem;
-  }
-}
-</style>
