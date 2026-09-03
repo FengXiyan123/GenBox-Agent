@@ -9,7 +9,7 @@
 GenBox-Agent 基于 Java 17、Spring Boot 3.5 与 Spring AI 1.1 构建。项目没有把所有问题直接交给大模型，而是通过问题准备、知识路由、执行模式编排、混合检索、结构图问答和证据校验，将企业文档问答拆解为可控制、可观测、可演进的工程链路。
 
 ## 网站链接
-[点击打开GenBox‑Agent演示页面](https://com.gen-box.xyz)
+[点击打开GenBox‑Agent演示页面](https://www.gen-box.xyz)
 
 ## 项目概况
 
