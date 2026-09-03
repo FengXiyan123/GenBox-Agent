@@ -18,7 +18,7 @@ vi.mock('../../api/api', () => ({
 describe('ordinary dashboard business scope', () => {
   beforeEach(() => Object.values(mocks).forEach((mock) => mock.mockReset()))
 
-  it('shows ordinary document metrics, demo path, and recent documents', async () => {
+  it('shows ordinary document metrics and full-width recent documents', async () => {
     mocks.queryDocumentPage.mockResolvedValue({
       total: 1,
       records: [{
@@ -38,8 +38,9 @@ describe('ordinary dashboard business scope', () => {
 
     expect(mocks.queryDocumentPage).toHaveBeenCalledWith({ pageNo: 1, pageSize: 50, keyword: '' })
     expect(wrapper.text()).toContain('文档总数')
-    expect(wrapper.text()).toContain('建议演示路径')
+    expect(wrapper.text()).not.toContain('演示查看路径')
     expect(wrapper.text()).toContain('最近接入文档')
+    expect(wrapper.get('[aria-labelledby="recent-documents-title"]').classes()).toContain('w-full')
     expect(wrapper.text()).toContain('员工手册')
     expect(wrapper.text()).not.toContain('知识路由健康度')
     expect(wrapper.text()).not.toContain('shadow 命中率')

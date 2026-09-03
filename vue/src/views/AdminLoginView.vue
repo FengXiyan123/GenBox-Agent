@@ -90,7 +90,7 @@ import { Label } from '@/components/ui/label'
 const router = useRouter()
 const route = useRoute()
 
-const form = reactive({ username: '', password: '' })
+const form = reactive({ username: 'admin', password: 'admin123456' })
 const errorMessage = ref('')
 const submitting = ref(false)
 const showPassword = ref(false)

@@ -22,12 +22,12 @@ describe('F05 admin shell contracts', () => {
     expect(layout).not.toContain('sidebar-mask')
   })
 
-  it('keeps the login compact, empty by default, and exposes password visibility', () => {
+  it('keeps the login compact, prefilled with administrator credentials, and exposes password visibility', () => {
     const login = source('src/views/AdminLoginView.vue')
     expect(login).toContain('showPassword')
     expect(login).toContain(':loading="submitting"')
-    expect(login).not.toContain("username: 'admin'")
-    expect(login).not.toContain("password: 'admin123456'")
+    expect(login).toContain("username: 'admin'")
+    expect(login).toContain("password: 'admin123456'")
   })
 })
 
@@ -36,8 +36,9 @@ describe('F05 dashboard and list template contracts', () => {
     const dashboard = source('src/views/admin/AdminDashboardView.vue')
     expect(dashboard).toContain('PageHeader')
     expect(dashboard).toContain('AsyncState')
-    expect(dashboard).toContain('建议演示路径')
+    expect(dashboard).not.toContain('演示查看路径')
     expect(dashboard).toContain('最近接入文档')
+    expect(dashboard).toContain('w-full')
     expect(dashboard).not.toContain('queryKnowledgeRouteTracePage')
     expect(dashboard).not.toContain('SCRIPT_PLACEHOLDER')
   })

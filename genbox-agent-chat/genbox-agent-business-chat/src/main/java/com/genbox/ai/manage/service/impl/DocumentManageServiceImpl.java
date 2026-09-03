@@ -584,7 +584,10 @@ public class DocumentManageServiceImpl implements DocumentManageService {
             "索引构建任务已创建，等待异步执行。",
             Map.of("planId", dto.getPlanId(), "strategySnapshot", plan.getStrategySnapshot()));
 
-        kafkaProducer.sendIndexBuild(new DocumentIndexBuildMessage(document.getId(), taskId, dto.getPlanId()));
+        // buildIndex runs in a transaction. Publish only after commit so the Kafka
+        // consumer can see the task/document rows before it starts processing.
+        DocumentIndexBuildMessage message = new DocumentIndexBuildMessage(document.getId(), taskId, dto.getPlanId());
+        DocumentMessageDispatch.afterCommit(() -> kafkaProducer.sendIndexBuild(message));
 
         return new DocumentIndexBuildVo(
             document.getId(),

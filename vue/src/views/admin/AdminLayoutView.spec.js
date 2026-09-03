@@ -33,7 +33,7 @@ const slotStub = defineComponent({
 })
 
 describe('AdminLayoutView branding', () => {
-  it('renders the canonical brand in desktop and mobile navigation surfaces', () => {
+  it('renders the canonical brand, header actions, and visible collapse control', async () => {
     const wrapper = mount(AdminLayoutView, {
       global: {
         stubs: {
@@ -50,6 +50,14 @@ describe('AdminLayoutView branding', () => {
     expect(wrapper.get('[data-brand-surface="mobile"]').text()).toBe('GenBox-Agent')
     expect(wrapper.findAll('img[src="/GenBox_ico.png"]')).toHaveLength(2)
     expect(wrapper.get('[data-testid="theme-toggle"]').attributes('aria-label')).toBe('切换为深色模式')
+    const headerActions = wrapper.get('[data-testid="admin-header-actions"]')
+    expect(headerActions.get('[data-testid="theme-toggle"]').exists()).toBe(true)
+    expect(headerActions.text()).toContain('返回会话端')
+
+    await wrapper.get('button[aria-label="收起侧边导航"]').trigger('click')
+    expect(wrapper.get('button[aria-label="展开侧边导航"]').exists()).toBe(true)
+    expect(wrapper.find('.admin-sidebar header img').exists()).toBe(false)
+
     for (const tone of ['overview', 'knowledge', 'observability']) {
       expect(wrapper.get(`[data-nav-group="${tone}"]`).classes()).toContain('admin-nav-group')
     }

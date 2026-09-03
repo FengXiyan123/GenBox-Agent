@@ -43,8 +43,8 @@ const emit = defineEmits([
     :class="collapsed ? 'w-16' : 'w-72'"
     aria-label="会话历史"
   >
-    <header class="flex h-16 flex-none items-center gap-2 border-b border-border px-3">
-      <img src="/GenBox_ico.png" alt="GenBox-Agent" class="size-8 flex-none rounded-md object-contain" />
+    <header :class="collapsed ? 'flex h-16 flex-none items-center justify-center border-b border-border px-0' : 'flex h-16 flex-none items-center gap-2 border-b border-border px-3'">
+      <img v-if="!collapsed" src="/GenBox_ico.png" alt="GenBox-Agent" class="size-8 flex-none rounded-md object-contain" />
       <strong v-if="!collapsed" class="min-w-0 flex-1 truncate text-sm font-semibold text-foreground">会话列表</strong>
       <Button
         variant="ghost"

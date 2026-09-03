@@ -27,14 +27,14 @@ describe('F05 admin login behavior', () => {
     mocks.login.mockResolvedValue({ username: 'operator', token: 'signed-token' })
   })
 
-  it('starts empty, toggles password visibility, and restores the safe admin redirect', async () => {
+  it('prefills the administrator credentials, toggles password visibility, and restores the safe admin redirect', async () => {
     const wrapper = mount(AdminLoginView)
     const username = wrapper.get('#login-username')
     const password = wrapper.get('#login-password')
 
     expect(wrapper.text()).toContain('GenBox-Agent')
-    expect(username.element.value).toBe('')
-    expect(password.element.value).toBe('')
+    expect(username.element.value).toBe('admin')
+    expect(password.element.value).toBe('admin123456')
     expect(password.attributes('type')).toBe('password')
 
     await wrapper.get('button[aria-label="显示密码"]').trigger('click')
@@ -52,6 +52,8 @@ describe('F05 admin login behavior', () => {
 
   it('reports required fields without issuing a request', async () => {
     const wrapper = mount(AdminLoginView)
+    await wrapper.get('#login-username').setValue('')
+    await wrapper.get('#login-password').setValue('')
     await wrapper.get('form').trigger('submit')
     expect(wrapper.text()).toContain('请输入账号和密码。')
     expect(mocks.login).not.toHaveBeenCalled()

@@ -29,4 +29,23 @@ describe('ConversationNavigation branding', () => {
     expect(logo.attributes('alt')).toBe('GenBox-Agent')
     expect(wrapper.get('aside [data-testid="chat-sidebar-icp"]').text()).toContain('晋ICP备2026011999号-1')
   })
+
+  it('keeps the expand button visible after the sidebar is collapsed', () => {
+    const wrapper = mount(ConversationNavigation, {
+      props: { collapsed: true },
+      global: {
+        stubs: {
+          Drawer: slotStub,
+          DrawerContent: slotStub,
+          DrawerHeader: slotStub,
+          DrawerTitle: slotStub,
+          DrawerDescription: slotStub,
+          DrawerClose: slotStub
+        }
+      }
+    })
+
+    expect(wrapper.get('button[aria-label="展开会话历史"]').exists()).toBe(true)
+    expect(wrapper.find('aside header img').exists()).toBe(false)
+  })
 })

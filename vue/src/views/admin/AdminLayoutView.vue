@@ -13,8 +13,8 @@
       not because it is a lighter panel.
     -->
     <aside class="admin-sidebar hidden min-h-dvh border-r border-admin-border lg:flex">
-      <div class="flex h-14 flex-none items-center gap-2 border-b border-border px-3">
-        <img src="/GenBox_ico.png" alt="GenBox-Agent" class="size-8 flex-none rounded-md object-contain" />
+      <div :class="cn('flex h-14 flex-none items-center border-b border-border', desktopCollapsed ? 'justify-center px-0' : 'gap-2 px-3')">
+        <img v-if="!desktopCollapsed" src="/GenBox_ico.png" alt="GenBox-Agent" class="size-8 flex-none rounded-md object-contain" />
         <strong v-if="!desktopCollapsed" data-brand-surface="desktop" class="min-w-0 flex-1 truncate text-body-sm font-semibold text-foreground">GenBox-Agent</strong>
         <Button
           variant="ghost"
@@ -54,16 +54,6 @@
       </nav>
 
       <div class="flex flex-none flex-col gap-2 border-t border-border p-2">
-        <RouterLink
-          to="/chat"
-          :class="cn('flex min-h-9 items-center gap-2 rounded-md px-2.5 text-body-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/40', desktopCollapsed && 'justify-center px-0')"
-          :title="desktopCollapsed ? '返回会话端' : undefined"
-        >
-          <ArrowTopRightOnSquareIcon class="size-[18px] flex-none" aria-hidden="true" />
-          <span v-if="!desktopCollapsed">返回会话端</span>
-          <span v-else class="sr-only">返回会话端</span>
-        </RouterLink>
-
         <div :class="cn('flex items-center gap-2 rounded-md bg-muted p-2', desktopCollapsed && 'justify-center p-1')">
           <div class="grid size-8 flex-none place-items-center rounded-md border border-border bg-card text-caption font-semibold text-foreground" aria-hidden="true">
             {{ usernameInitial }}
@@ -133,10 +123,6 @@
             </section>
           </nav>
           <div class="flex flex-none flex-col gap-2 border-t border-border p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
-            <RouterLink to="/chat" class="flex min-h-11 items-center gap-3 rounded-md px-3 text-body-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground" @click="mobileNavOpen = false">
-              <ArrowTopRightOnSquareIcon class="size-5" aria-hidden="true" />
-              返回会话端
-            </RouterLink>
             <Button variant="outline" size="lg" class="w-full rounded-md" type="button" @click="logout">
               <ArrowLeftOnRectangleIcon data-icon="inline-start" aria-hidden="true" />
               退出 {{ username }}
@@ -167,7 +153,15 @@
           <p class="m-0 truncate text-caption text-muted-foreground">管理后台</p>
           <h1 class="m-0 truncate text-body-sm font-semibold text-foreground">{{ pageTitle }}</h1>
         </div>
-        <ThemeToggle class="ml-auto" />
+        <div data-testid="admin-header-actions" class="ml-auto flex shrink-0 items-center gap-1.5">
+          <ThemeToggle />
+          <Button as-child variant="secondary" size="lg" class="h-11 px-3 sm:h-9">
+            <RouterLink to="/chat">
+              <ArrowTopRightOnSquareIcon data-icon="inline-start" />
+              返回会话端
+            </RouterLink>
+          </Button>
+        </div>
       </header>
 
       <!--

@@ -14,20 +14,20 @@ spring:
   data:
     redis:
       database: 0
-      host: 127.0.0.1
-      port: 6379
+      host: ${GENBOX_REDIS_HOST}
+      port: ${GENBOX_REDIS_PORT}
       timeout: 3000  
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/genbox_agent?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false
-    username: "${SPRING_DATASOURCE_USERNAME}"
-    password: "${SPRING_DATASOURCE_PASSWORD}"
+    url: ${GENBOX_MYSQL_URL}
+    username: ${GENBOX_MYSQL_USERNAME}
+    password: ${GENBOX_MYSQL_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       pool-name: genbox-agent-hikari
       maximum-pool-size: 10
       minimum-idle: 2
   kafka:
-    bootstrap-servers: 127.0.0.1:9092
+    bootstrap-servers: ${GENBOX_KAFKA_BOOTSTRAP_SERVERS}
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
@@ -40,10 +40,10 @@ spring:
       # OpenAI 兼容协议的服务入口。
       # 当前这里接的是阿里云百炼 DashScope 的兼容地址，
       # chat 和 embedding 都会通过这个基地址发请求。
-      base-url: https://dashscope.aliyuncs.com/compatible-mode/
+      base-url: ${GENBOX_OPENAI_BASE_URL}
       # OpenAI 兼容协议的访问密钥。
       # 正式环境建议改成环境变量注入，不要把真实密钥直接写在配置文件里。
-      api-key: "${SPRING_AI_OPENAI_API_KEY}"
+      api-key: ${GENBOX_OPENAI_API_KEY}
       chat:
         options:
           # 对话模型名称。
@@ -54,9 +54,9 @@ spring:
           maxTokens: 5000
       embedding:
         # embedding 单独指定 base-url，便于后续把对话模型和向量模型拆到不同网关时直接切换。
-        base-url: https://dashscope.aliyuncs.com/compatible-mode/
+        base-url: ${GENBOX_OPENAI_EMBEDDING_BASE_URL}
         # embedding 调用使用的密钥。
-        api-key: "${SPRING_AI_OPENAI_EMBEDDING_API_KEY}"
+        api-key: ${GENBOX_OPENAI_EMBEDDING_API_KEY}
         options:
           # 向量模型名称。
           # 当前文档切块向量化时，会直接使用这里配置的模型，不再额外在 manage 下重复维护一份。
@@ -79,12 +79,12 @@ mybatis-plus:
 
 app:
   admin-auth:
-    username: "${GENBOX_AGENT_ADMIN_USERNAME}"
-    password: "${GENBOX_AGENT_ADMIN_PASSWORD}"
-    token-secret: "${GENBOX_AGENT_ADMIN_TOKEN_SECRET}"
+    username: ${GENBOX_AGENT_ADMIN_USERNAME}
+    password: ${GENBOX_AGENT_ADMIN_PASSWORD}
+    token-secret: ${GENBOX_AGENT_ADMIN_TOKEN_SECRET}
     token-expire-minutes: ${GENBOX_AGENT_ADMIN_TOKEN_EXPIRE_MINUTES:720}
   preview-mode:
-    enabled: ${GENBOX_AGENT_PREVIEW_MODE_ENABLED:false}
+    enabled: ${GENBOX_AGENT_PREVIEW_MODE_ENABLED:true}
     message: ${GENBOX_AGENT_PREVIEW_MODE_MESSAGE:线上环境为只读展示模式，仅开放浏览与检索能力}
   chat:
     # 是否开启“推荐追问问题”能力。
@@ -209,9 +209,9 @@ app:
         # 是否启用基于 HTTP 的外部 Rerank 接口。
         enabled: false
         # 外部 Rerank 服务地址，默认沿用 SiliconFlow 兼容接口。
-        url: https://api.siliconflow.cn/v1/rerank
+        url: ${GENBOX_RERANK_URL}
         # Rerank API Key，默认和聊天模型密钥解耦，未配置时会自动回退到 spring.ai.openai.api-key。
-        api-key: "${RERANK_API_KEY:}"
+        api-key: ${GENBOX_RERANK_API_KEY}
         # Rerank 模型名称。
         model: BAAI/bge-reranker-v2-m3
         # 单次精排后保留的前 N 个候选。
@@ -223,13 +223,13 @@ app:
     enabled: true
     # Tavily API 的服务地址。
     # 如果后续切换代理或企业网关，可以改这里。
-    base-url: https://api.tavily.com
+    base-url: ${GENBOX_TAVILY_BASE_URL}
     # Tavily 搜索接口路径。
     # 默认使用官方的 /search 端点。
     search-path: /search
     # Tavily 的 API Key。
     # 推荐通过环境变量注入，避免把真实密钥写进配置文件。
-    api-key: "${TAVILY_API_KEY}"
+    api-key: ${GENBOX_TAVILY_API_KEY}
     # 搜索主题类型。
     # Tavily 当前只接受 general、news、finance 三个枚举值。
     # 一般场景优先用 general。
@@ -252,13 +252,13 @@ app:
       # MinIO 服务地址。
       # 上传的原始文件和解析后的纯文本都会放在这里。
       # 本地一般是 9000 端口；如果你是 docker 启动的 MinIO，这里填宿主机映射地址。
-      endpoint: http://127.0.0.1:9000
+      endpoint: ${GENBOX_MINIO_ENDPOINT}
       # MinIO 访问账号。
       # 本地开发通常使用默认账号，生产环境建议改成专用 AK。
-      access-key: "${MINIO_ACCESS_KEY}"
+      access-key: ${GENBOX_MINIO_ACCESS_KEY}
       # MinIO 访问密码。
       # 生产环境不要直接写死在配置文件里，建议通过环境变量或配置中心下发。
-      secret-key: "${MINIO_SECRET_KEY}"
+      secret-key: ${GENBOX_MINIO_SECRET_KEY}
       # 文档管理模块统一使用的 bucket 名称。
       # 应用启动时会自动检查这个 bucket 是否存在，不存在就自动创建。
       bucket-name: ${prefix.distinction.name:genbox-agent}-document
@@ -305,17 +305,17 @@ app:
       # 关闭后，向量化链路不会创建 PG 专用数据源。
       enabled: true
       # PostgreSQL 主机地址。
-      host: 127.0.0.1
+      host: ${GENBOX_PGVECTOR_HOST}
       # PostgreSQL 端口。
-      port: 5432
+      port: ${GENBOX_PGVECTOR_PORT}
       # PGVector 使用的数据库名。
-      database: genbox_agent_pgvector
+      database: ${GENBOX_PGVECTOR_DATABASE}
       # 默认 schema。
-      schema: public
+      schema: ${GENBOX_PGVECTOR_SCHEMA}
       # PostgreSQL 用户名。
-      username: "${PGVECTOR_USERNAME}"
+      username: ${GENBOX_PGVECTOR_USERNAME}
       # PostgreSQL 密码。
-      password: "${PGVECTOR_PASSWORD}"
+      password: ${GENBOX_PGVECTOR_PASSWORD}
       # 连接池名称，方便日志和监控定位。
       pool-name: genbox-agent-manage-pgvector-hikari
       # 连接池最大连接数。
@@ -326,12 +326,11 @@ app:
       # 是否启用 Elasticsearch 关键词检索。
       enabled: true
       # Elasticsearch 地址列表。
-      uris:
-        - http://127.0.0.1:9200
+      uris: ${GENBOX_ELASTICSEARCH_URIS}
       # Elasticsearch 用户名。
-      username: "${ELASTICSEARCH_USERNAME}"
+      username: ${GENBOX_ELASTICSEARCH_USERNAME}
       # Elasticsearch 密码。
-      password: "${ELASTICSEARCH_PASSWORD}"
+      password: ${GENBOX_ELASTICSEARCH_PASSWORD}
       # 关键词索引名称。
       index-name: ${prefix.distinction.name:genbox-agent}-document-keyword
       # 导航层结构节点索引名称，粒度是 section/step/list_item，不和 chunk 级关键词索引混用。
@@ -350,10 +349,10 @@ app:
     neo4j:
       # 是否启用 Neo4j 结构图。默认关闭，关闭时结构图服务自动回退到 MySQL 结构节点表。
       enabled: true
-      uri: bolt://127.0.0.1:7687
-      username: "${NEO4J_USERNAME}"
-      password: "${NEO4J_PASSWORD}"
-      database: neo4j
+      uri: ${GENBOX_NEO4J_URI}
+      username: ${GENBOX_NEO4J_USERNAME}
+      password: ${GENBOX_NEO4J_PASSWORD}
+      database: ${GENBOX_NEO4J_DATABASE}
       query-timeout-seconds: 5
 
 logging:
